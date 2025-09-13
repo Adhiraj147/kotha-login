@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Khota Portal — Login</title>
+  <style>
+    :root{
+      --bg:#0f1724;
+      --card:#0b1220;
+      --accent:#06b6d4;
+      --muted:#94a3b8;
+      --success:#10b981;
+      --danger:#ef4444;
+      --glass: rgba(255,255,255,0.04);
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background:
+        radial-gradient(600px 400px at 10% 20%, rgba(6,182,212,0.06), transparent 10%),
+        radial-gradient(600px 400px at 90% 80%, rgba(16,185,129,0.04), transparent 10%),
+        var(--bg);
+      color:#e6eef8;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+    }
+
+    .wrapper{
+      width:100%;
+      max-width:960px;
+      display:grid;
+      grid-template-columns: 1fr 420px;
+      gap:28px;
+      align-items:center;
+    }
+
+    .hero{
+      padding:28px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      border-radius:16px;
+      box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+      border: 1px solid rgba(255,255,255,0.03);
+    }
+    .hero h1{
+      margin:0 0 8px 0;
+      font-size:28px;
+      letter-spacing:-0.3px;
+    }
+    .hero p{ margin:0 0 16px 0; color:var(--muted) }
+    .features{ display:flex; gap:12px; flex-wrap:wrap; margin-top:12px }
+    .feature{
+      background:var(--glass);
+      padding:10px 12px;
+      border-radius:10px;
+      font-size:13px;
+      color:var(--muted);
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      padding:28px;
+      border-radius:16px;
+      border: 1px solid rgba(255,255,255,0.03);
+      box-shadow: 0 6px 20px rgba(2,6,23,0.6);
+    }
+    form{ display:flex; flex-direction:column; gap:14px; width:100% }
+    label{ font-size:13px; color:var(--muted) }
+    .input{
+      background:transparent;
+      border:1px solid rgba(255,255,255,0.06);
+      padding:12px 12px;
+      border-radius:10px;
+      color:inherit;
+      outline:none;
+      font-size:15px;
+    }
+    .input:focus{
+      border-color: rgba(6,182,212,0.9);
+      box-shadow: 0 6px 18px rgba(6,182,212,0.06);
+    }
+    .row{ display:flex; gap:10px; align-items:center; justify-content:space-between }
+    .btn{
+      background:linear-gradient(90deg,var(--accent), #7dd3fc 120%);
+      border:none;
+      color:#012027;
+      padding:12px 14px;
+      border-radius:10px;
+      font-weight:600;
+      cursor:pointer;
+      font-size:15px;
+      transition:transform .12s ease;
+    }
+    .btn:active{ transform:translateY(1px) }
+    .small{ font-size:13px; color:var(--muted) }
+
+    .msg{
+      padding:10px 12px;
+      border-radius:10px;
+      font-size:14px;
+    }
+    .msg.success{ background: rgba(16,185,129,0.12); color:var(--success); border:1px solid rgba(16,185,129,0.08) }
+    .msg.error{ background: rgba(239,68,68,0.08); color:var(--danger); border:1px solid rgba(239,68,68,0.06) }
+
+    .meta{ display:flex; gap:12px; align-items:center; }
+    .brand{
+      display:flex; align-items:center; gap:12px;
+    }
+    .logo{
+      width:48px;height:48px;border-radius:10px;background:linear-gradient(135deg,var(--accent), #10b981);
+      display:flex;align-items:center;justify-content:center;font-weight:700;color:#002028;
+      box-shadow:0 6px 20px rgba(2,6,23,0.5);
+    }
+
+    footer{ margin-top:12px; color:var(--muted); font-size:13px }
+
+    /* responsive */
+    @media (max-width:880px){
+      .wrapper{ grid-template-columns: 1fr; }
+      .hero{ order:2 }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="hero card" aria-hidden="false">
+      <div class="brand">
+        <div class="logo">K</div>
+        <div>
+          <h1>Khota Portal</h1>
+          <p class="small">Demo login portal — frontend-only simulation</p>
+        </div>
+      </div>
+
+      <p>Welcome! यह एक सीधा-साधा mock login है। नीचे दिए गए features देखें:</p>
+      <div class="features" role="list">
+        <div class="feature" role="listitem">Responsive design</div>
+        <div class="feature" role="listitem">Show / hide password</div>
+        <div class="feature" role="listitem">Remember me (localStorage)</div>
+        <div class="feature" role="listitem">Fake authentication logic</div>
+      </div>
+
+      <footer>
+        Tips: असली project में credentials server पर जाके validate होते हैं — कभी भी plaintext पासवर्ड client-side पे मत रखें।
+      </footer>
+    </div>
+
+    <div class="card" role="region" aria-label="Login form">
+      <form id="loginForm" autocomplete="on" novalidate>
+        <div>
+          <label for="username">Username</label>
+          <input id="username" class="input" name="username" type="text" placeholder="Enter username" required minlength="3" />
+        </div>
+
+        <div>
+          <label for="password">Password</label>
+          <div style="display:flex;gap:8px;align-items:center">
+            <input id="password" class="input" name="password" type="password" placeholder="Enter password" required minlength="4" style="flex:1" />
+            <button type="button" id="togglePwd" aria-pressed="false" title="Show/Hide password" style="background:transparent;border:none;color:var(--muted);cursor:pointer;padding:6px 8px;border-radius:8px">👁</button>
+          </div>
+        </div>
+
+        <div class="row">
+          <label style="display:flex;gap:8px;align-items:center">
+            <input id="remember" type="checkbox" /> <span class="small">Remember me</span>
+          </label>
+          <a href="#" id="forgot" class="small" style="color:var(--muted);text-decoration:none">Forgot?</a>
+        </div>
+
+        <div id="messageArea" aria-live="polite"></div>
+
+        <div class="row" style="margin-top:4px">
+          <button class="btn" type="submit">Sign in</button>
+          <button type="button" id="demoBtn" class="btn" style="background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)">Demo creds</button>
+        </div>
+
+        <div style="margin-top:8px" class="small">Don't have an account? <a href="#" id="signup" style="color:var(--accent);text-decoration:none">Create one</a></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Simple simulated auth logic (khota / demo)
+    // Accept credentials:
+    //  - username: admin  password: admin  => success
+    //  - any other non-empty username/password length>=4 => fake "failed" (demo)
+    // This is only front-end simulation.
+    (function(){
+      const form = document.getElementById('loginForm');
+      const msg = document.getElementById('messageArea');
+      const toggle = document.getElementById('togglePwd');
+      const pwdInput = document.getElementById('password');
+      const userInput = document.getElementById('username');
+      const remember = document.getElementById('remember');
+      const demoBtn = document.getElementById('demoBtn');
+
+      // Load saved username
+      try {
+        const saved = localStorage.getItem('khota-username');
+        if(saved){
+          userInput.value = saved;
+          remember.checked = true;
+        }
+      } catch(e){ /* ignore */ }
+
+      toggle.addEventListener('click', e=>{
+        const shown = pwdInput.type === 'text';
+        pwdInput.type = shown ? 'password' : 'text';
+        toggle.setAttribute('aria-pressed', String(!shown));
+      });
+
+      demoBtn.addEventListener('click', ()=>{
+        // Fill demo credentials
+        userInput.value = 'admin';
+        pwdInput.value = 'admin';
+        showMessage('Demo credentials filled: admin / admin', 'success', 3000);
+      });
+
+      function showMessage(text, kind='error', timeout=0){
+        msg.innerHTML = '';
+        const el = document.createElement('div');
+        el.className = 'msg ' + (kind === 'success' ? 'success' : 'error');
+        el.textContent = text;
+        msg.appendChild(el);
+        if(timeout) setTimeout(()=> {
+          if(msg.contains(el)) msg.removeChild(el);
+        }, timeout);
+      }
+
+      form.addEventListener('submit', function(e){
+        e.preventDefault();
+        const username = userInput.value.trim();
+        const password = pwdInput.value;
+
+        // basic client validation
+        if(username.length < 3){
+          showMessage('Username should be at least 3 characters.', 'error');
+          userInput.focus();
+          return;
+        }
+        if(password.length < 4){
+          showMessage('Password should be at least 4 characters.', 'error');
+          pwdInput.focus();
+          return;
+        }
+
+        // Remember me -> localStorage (only username)
+        try {
+          if(remember.checked){
+            localStorage.setItem('khota-username', username);
+          } else {
+            localStorage.removeItem('khota-username');
+          }
+        } catch(e){ /* ignore storage errors */ }
+
+        // Fake authentication rules:
+        if(username === 'admin' && password === 'admin'){
+          // success
+          showMessage('Welcome back, admin! (This is a khota/demo login.)','success');
+          // simulate redirect after success (client-side)
+          setTimeout(()=> {
+            // For demo we won't actually redirect; instead show an alert and reset
+            // If you want to redirect, replace with: window.location.href = '/dashboard';
+            alert('Logged in (simulated). Replace with real redirect for production.');
+          }, 600);
+        } else {
+          showMessage('Invalid credentials (demo). Try "admin / admin" or change logic to connect to a real server.','error');
+        }
+      });
+
+      // Prevent empty-href navigation
+      ['forgot','signup'].forEach(id=>{
+        const el = document.getElementById(id);
+        if(el) el.addEventListener('click', e=>{
+          e.preventDefault();
+          showMessage('This is a demo portal — no real recovery/signup available here.', 'error', 3000);
+        });
+      });
+
+    })();
+  </script>
+</body>
+</html>
